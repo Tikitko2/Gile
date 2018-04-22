@@ -88,33 +88,6 @@ router.post('/', function (req, res, next) {
         return next(err);
     }
 });
-//
-// // GET route after registering
-// router.get('/profile', function (req, res, next) {
-//
-//     isLogged(req);
-//
-//
-//     let session = req.session;
-//     console.log(session);
-//
-//
-//     User.findById(req.session.userId)
-//         .exec(function (error, user) {
-//             if (error) {
-//                 return next(error);
-//             } else {
-//                 if (user === null) {
-//                     let err = new Error('Not authorized! Go back!');
-//                     err.status = 400;
-//                     return next(err);
-//                 } else {
-//                     console.log(user);
-//                     return res.send('<h1>Name: </h1>' + user.username + '<h2>Mail: </h2>' + user.email + '<br><a type="button" href="/logout">Logout</a>')
-//                 }
-//             }
-//         });
-// });
 
 // GET for logout logout
 router.get('/logout', function (req, res, next) {
