@@ -4,23 +4,24 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Gile Аутентификация</title>
+    <title>Gile {{ title }}</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="/stylesheets/login.css">
 </head>
 <body class="main-bg">
 <div class="container text-center">
     <div class="row justify-content-around">
         <div class="col-sm-8">
-            <h1 class="my-5"><span class="badge badge-warning">Gile</span> Аутентификация</h1>
+            <h1 class="my-5"><span class="badge badge-warning">Gile</span> {{ title }}</h1>
         </div>
     </div>
+	{% if type == 0 %}
     <div class="row justify-content-around">
         <div class="col-md-5 col-sm-6">
             <div class="card card-white text-black bg-light mb-3">
                 <div class="card-header h3">Авторизация</div>
                 <div class="card-body">
-                    <form action="/" method="post">
+                    <form method="post">
                         <div class="form-group">
                             <label for="InputEmail1">E-mail</label>
                             <input type="email" name="logemail" class="form-control" id="InputEmail1" placeholder="Введите E-mail">
@@ -38,7 +39,7 @@
             <div class="card card-white text-black bg-light mb-3">
                 <div class="card-header h3">Регистрация</div>
                 <div class="card-body">
-                    <form action="/" method="post">
+                    <form method="post">
                         <div class="form-group">
                             <label for="InputEmail2">E-mail</label>
                             <input type="email" name="email" class="form-control" id="InputEmail2" aria-describedby="emailHelp" placeholder="Введите E-mail">
@@ -62,6 +63,44 @@
             </div>
         </div>
     </div>
+	{% endif %}
+	{% if type == 1 %}
+		<div class="row justify-content-around">
+		<div class="col-sm-5">
+		<div class="card bg-light mb-3">
+		  <div class="card-header">Имя пользоватея</div>
+		  <div class="card-body">
+			<p class="card-text">{{username}}</p>
+		  </div>
+		</div>
+		</div>
+		</div>
+		<div class="row justify-content-around">
+		<div class="col-sm-5">
+		<div class="card bg-light mb-3"">
+		  <div class="card-header">E-mail</div>
+		  <div class="card-body">
+			<p class="card-text">{{email}}</p>
+		  </div>
+		</div>
+		</div>
+		</div>
+		<div class="row justify-content-around">
+		<div class="col-sm-5">
+		<div class="card bg-light mb-3">
+		  <div class="card-header">Опыт</div>
+		  <div class="card-body">
+			<p class="card-text">{{expirience}}</p>
+		  </div>
+		</div>
+		</div>
+		</div>
+		<div class="row justify-content-around">
+		<div class="col-sm-5">
+		<a type="button" class="mt-1 btn btn-danger btn-block" href="logout">Выйти</a>
+		</div>
+		</div>
+	{% endif %}
 </div>
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
