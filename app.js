@@ -9,11 +9,9 @@ var mongoose = require('mongoose');
 var session = require('express-session');
 var MongoStore = require('connect-mongo')(session);
 
-var indexRouter = require('./routes/index');
+var loginRouter = require('./routes/login');
 
 var app = express();
-
-//yura
 
 //connect to MongoDB
 mongoose.connect('mongodb://bugord:password@62.109.18.213/gile', { useMongoClient: true });
@@ -23,7 +21,7 @@ var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function () {
     // we're connected!
-    console.log('Connected to DB');
+    console.log('Connected to Database!');
 });
 
 //use sessions for tracking logins
@@ -41,14 +39,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 
-
-
-
-
-
-
-
-
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'twig');
@@ -60,9 +50,17 @@ app.use(cookieParser());
 
 // serve static files from template
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(express.static(__dirname + '/public'));
+//app.use(express.static(__dirname + '/public'));
 
-app.use('/', indexRouter);
+app.use(function(req, res, next){
+	if (!req.url.endsWith('/')) {
+		res.redirect(301, req.url + '/');
+	} else {
+		next();
+	}
+});
+
+app.use('/login', loginRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
