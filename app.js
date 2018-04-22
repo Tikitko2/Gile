@@ -14,6 +14,8 @@ var usersRouter = require('./routes/users');
 
 var app = express();
 
+//yura
+
 //connect to MongoDB
 mongoose.connect('mongodb://bugord:password@62.109.18.213/gile', { useMongoClient: true });
 var db = mongoose.connection;
