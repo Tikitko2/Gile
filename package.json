@@ -13,6 +13,8 @@
     "debug": "~2.6.9",
     "express": "~4.16.0",
     "express-session": "^1.15.2",
+    "express-slash": "^2.0.1",
+    "express-to-slash": "^1.0.0",
     "http-errors": "^1.6.3",
     "mongoose": "^4.9.8",
     "morgan": "~1.9.0",
