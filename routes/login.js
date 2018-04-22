@@ -13,7 +13,7 @@ function isLogged(req) {
 router.get('/', function (req, res, next) {
     if (isLogged(req)) {
         // res.render('index', {title: 'Not logged'});
-        res.render('login', {title: 'Not logged'});
+        res.render('login', {title: 'Аутентификация', type: 0});
 
     }
     else {
@@ -22,13 +22,10 @@ router.get('/', function (req, res, next) {
                 if (error) {
                     return next(error);
                 } else {
-                    // res.render('indexDef', {title: 'Logged', username: req.session.username, email  : user.email, expirience: user.expirience});
-                    res.render('indexDef', {title: 'Logged', username: user.username, email  : user.email, expirience: user.expirience});
+                    res.render('login', {title: 'Пользователь', type: 1, username: user.username, email  : user.email, expirience: user.expirience});
 
                 }
             });
-
-
     }
 });
 
@@ -38,23 +35,21 @@ router.post('/', function (req, res, next) {
 
     // confirm that user typed same password twice
     if (req.body.password !== req.body.passwordConf) {
-        let err = new Error('Passwords do not match.');
+        let err = new Error("Passwords don't match!");
         err.status = 400;
-        res.send("passwords dont match");
+        res.send("Passwords don't match!");
         return next(err);
     }
 
     if (req.body.email &&
         req.body.username &&
-        req.body.password &&
-        req.body.passwordConf) {
+        req.body.password) {
 
         let userData = {
             email: req.body.email,
             username: req.body.username,
             expirience: 0,
             password: req.body.password,
-            passwordConf: req.body.passwordConf,
         };
 
         User.create(userData, function (error, user) {
@@ -63,7 +58,7 @@ router.post('/', function (req, res, next) {
             } else {
                 req.session.userId = user._id;
                 req.session.username = user.username;
-                return res.redirect('/');
+                return res.redirect('./');
                 // return res.redirect('/profile');
             }
         });
@@ -78,7 +73,7 @@ router.post('/', function (req, res, next) {
                 req.session.userId = user._id;
                 req.session.username = user.username;
                 // return res.redirect('/profile');
-                return res.redirect('/');
+                return res.redirect('./');
 
             }
         });
@@ -97,7 +92,7 @@ router.get('/logout', function (req, res, next) {
             if (err) {
                 return next(err);
             } else {
-                return res.redirect('/');
+                return res.redirect('../');
             }
         });
     }
