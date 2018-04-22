@@ -13,7 +13,7 @@ function isLogged(req) {
 router.get('/', function (req, res, next) {
     if (isLogged(req)) {
         // res.render('index', {title: 'Not logged'});
-        res.render('login1', {title: 'Not logged'});
+        res.render('login', {title: 'Not logged'});
 
     }
     else {
