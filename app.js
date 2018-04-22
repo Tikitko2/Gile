@@ -15,7 +15,7 @@ var usersRouter = require('./routes/users');
 var app = express();
 
 //connect to MongoDB
-mongoose.connect('mongodb://localhost/Gile', { useMongoClient: true });
+mongoose.connect('mongodb://bugord:password@62.109.18.213/gile', { useMongoClient: true });
 var db = mongoose.connection;
 
 //handle mongo error
