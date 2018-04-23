@@ -100,8 +100,9 @@ router.get('/logout', function (req, res, next) {
     }
 });
 
+// ДАЙ БОГ СИЛЫ ПРОПЛЫТЬ ЧЕРЕЗ ЭТО МОРЕ Г****
 router.get('/task', function (req, res, next) {
-	if (!isLoЗапрос прошел успешноed(req)) 
+	if (!isLogged(req)) 
 		res.end('Вы не зарегистрированы');
 	else 		
 		{	
@@ -130,8 +131,7 @@ router.get('/task', function (req, res, next) {
 				res.end('Запрос прошел успешно');
 			}
 			else
-			if(req.query['taskOwnerId'] != undefined && req.query['delete'] == undefined 
-&& req.query['title'] != undefined && req.query['description'] != undefined) // Добавление детского таска
+			if(req.query['taskOwnerId'] != undefined && req.query['delete'] == undefined && req.query['title'] != undefined && req.query['description'] != undefined) // Добавление детского таска
 			{
 				console.log("trying to add subtask");
 
