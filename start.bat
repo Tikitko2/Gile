@@ -1,2 +1,2 @@
-npm start
+node .\bin\www
 pause
