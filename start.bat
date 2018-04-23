@@ -1,2 +1,2 @@
-node .\bin\www
+call npm start
 pause
