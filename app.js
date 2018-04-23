@@ -53,9 +53,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 //app.use(express.static(__dirname + '/public'));
 
 app.use(function(req, res, next){
-	if (!req.url.endsWith('/')) {
+	if (!req.url.endsWith('/') && req.query.length == 0) {		
 		res.redirect(301, req.url + '/');
 	} else {
+		
 		next();
 	}
 });
