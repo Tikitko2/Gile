@@ -59,7 +59,9 @@ Task.completeTask =  function(taskObjectId)
 		'tasks.$.dateCompleted': (new Date)	
 		}},{multi:true}, function(err) {
 		});
-	} 
+	}
+
+	task.save();
 	
 	});
 }
