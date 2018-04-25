@@ -8,11 +8,9 @@ var TaskSchema = new mongoose.Schema({
     title: {
         type: String,
         required: true,
-        trim: true,
     },
     description: {
         type: String,
-        trim: true,
     },
     dateCreated: {
         type: Date,

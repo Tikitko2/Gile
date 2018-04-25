@@ -4,12 +4,12 @@
             {% if taskOwnerId is defined %}
                 <input name="taskOwnerId" value="{{ taskOwnerId }}" style="display:none;">
             {% endif %}
-            <input name="type" value="add" style="display:none;">
-            <input type="text" class="form-control" name="title" placeholder="Название задачи">
+            <input name="type" value="add" style="display:none;" >
+            <input type="text" class="form-control" name="title" placeholder="Название задачи" maxlength="100">
         </div>
         <div class="card-body">
-            <p class="card-text"><input type="text" class="mb-2 form-control" name="description" placeholder="Описание задачи">
-                <input type="number" class="form-control" name="difficulty" placeholder="Опыт"></p>
+            <p class="card-text"><input type="text" class="mb-2 form-control" name="description" placeholder="Описание задачи" maxlength="200">
+                <input type="number" class="form-control" name="difficulty" placeholder="Опыт" min="1" max="1000"></p>
         </div>
         <div class="card-footer">
             <button type="submit" class="btn btn-dark btn-block">Добавить</button>
