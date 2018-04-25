@@ -24,13 +24,26 @@ router.get('/', function (req, res, next) {
                     return next(error);
                 } else {
                     Task.getTasks(user._id, function (tasks) {
+						var exp = 0;
+
+						for (var i = 0; i < tasks.length; i++)
+						{
+								if(tasks[i].completed)
+									exp+= tasks[i].difficulty;
+							for (var j = 0; j < tasks[i].tasks.length; j++)
+							{
+								if(tasks[i].tasks[j].completed)
+									exp+= tasks[i].tasks[j].difficulty;
+							}
+						}
+
                         res.render('index', {
                             title: 'Кабинет',
                             type: 1,
                             tasks: tasks,
                             username: user.username,
                             email: user.email,
-                            expirience: user.expirience
+                            expirience: exp
                         });
                     });
                 }
@@ -132,8 +145,9 @@ router.get('/task', function (req, res, next) {
             }
             break;
         case "add":
-            var title = req.query['title'] === undefined || req.query['title'] === null ? "" : req.query['title'];
-            var description = req.query['description'] === undefined || req.query['description'] === null ? "" : req.query['description'];
+            var title = req.query['title'] === undefined || req.query['title'] === null ? "Empty" : req.query['title'] ;
+            var difficulty = +(req.query['difficulty'] === undefined || req.query['difficulty'] === null ? "1" : req.query['difficulty'].toString()) ;
+            var description = req.query['description'] === undefined || req.query['description'] === null ? "Empty" : req.query['description'];				
             let taskData = {
                 UserObjectId: req.session.userId,
                 title: title,
@@ -141,6 +155,7 @@ router.get('/task', function (req, res, next) {
                 dateCreated: (new Date),
                 dateCompleted: (new Date),
                 completed: false,
+				difficulty: difficulty,
                 tasks: []
             };
                 if (req.query['taskOwnerId'] !== undefined && req.query['taskOwnerId'] !== null) {

@@ -18,6 +18,10 @@ var TaskSchema = new mongoose.Schema({
         type: Date,
         required: true,
     },
+	difficulty: {
+		type: Number,
+		required: true,
+	},
     dateCompleted: {
         type: Date,
         required: true,
@@ -32,6 +36,8 @@ var TaskSchema = new mongoose.Schema({
 
 var Task = mongoose.model('Task', TaskSchema);
 
+
+
 Task.sendTask =  function(taskData)
 {
 	Task.create(taskData, function (error, task) {
@@ -42,6 +48,7 @@ Task.sendTask =  function(taskData)
             }
         });
 }
+
 
 Task.completeTask =  function(taskObjectId)
 {
