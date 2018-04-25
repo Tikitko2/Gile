@@ -1,0 +1,56 @@
+<div class="card {% if task.completed %}text-white bg-primary {% else %}bg-light {% endif %}mb-3 dib"
+     style="width:16rem;">
+    <div class="card-header">
+        {{ task.title }}
+    </div>
+    <div class="card-body" >
+        <p class="card-text">{{ task.description }}</p>
+    </div>
+    <div class="card-footer">
+        <button type="button" class="btn btn-info btn-block dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Информация</button>
+        <div class="dropdown-menu p-0 text-muted">
+            <ul class="list-group">
+                <li class="list-group-item">Начало: {{ task.dateCreated|date("d.m.Y H:i") }}</li>
+                {% if task.completed %}<li class="list-group-item">Завершение: {{ task.dateCompleted|date("d.m.Y H:i") }}</li>{% endif %}
+                <li class="list-group-item">Опыт: {{ task.difficulty }}</li>
+            </ul>
+        </div>
+        {% if task.completed == false %}
+            {% set loginform = app.request.query.get('login') %}
+            <button type="button" onclick="window.location.href='/task?type=complete&amp;taskId={{ task._id }}'" class="mt-2 btn btn-success btn-block">Выполнено</button>
+            <button type="button" onclick="window.location.href='/task?type=delete&amp;taskId={{ task._id }}'" class="mt-2 btn btn-danger btn-block">Удалить</button>
+        {% endif %}
+        {% if task.completed == false or task.tasks|length != 0 %}
+        <button type="button" data-toggle="modal" data-target="#{{ task._id }}" class="mt-2 btn btn-warning btn-block">Подпункты</button>
+        {% endif %}
+    </div>
+</div>
+
+{% if task.completed == false or task.tasks|length != 0 %}
+<!-- Modal -->
+<div class="modal fade" id="{{ task._id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalCenterTitle">Подпункты {{ task.title }}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                {% for subTask in task.tasks %}
+                    {% include 'subCard.twig' %}
+                {% endfor %}
+                {% set taskOwnerId = task._id %}
+                {% if task.completed == false %}
+                    {% include 'cardForm.twig' %}
+                {% endif %}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal -->
+{% endif %}
