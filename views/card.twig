@@ -16,8 +16,8 @@
             </ul>
         </div>
         {% if task.completed == false %}
-            <a type="button" href="/task?type=complete&amp;taskId={{ task._id }}" class="mt-2 btn btn-success btn-block">Выполнено</a>
-            <a type="button" href="/task?type=delete&amp;taskId={{ task._id }}" class="mt-2 btn btn-danger btn-block">Удалить</a>
+            <button type="button" onclick="window.location.href='/task?type=complete&amp;taskId={{ task._id }}'" class="mt-2 btn btn-success btn-block">Выполнено</button>
+            <button type="button" onclick="window.location.href='/task?type=delete&amp;taskId={{ task._id }}'" class="mt-2 btn btn-danger btn-block">Удалить</button>
         {% endif %}
     </div>
 </div>
