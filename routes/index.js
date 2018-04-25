@@ -121,7 +121,7 @@ router.get('/logout', function (req, res, next) {
     }
 });
 
-// ДАЙ БОГ СИЛЫ ПРОПЛЫТЬ ЧЕРЕЗ ЭТО МОРЕ Г****
+// ДАЙ БОГ СИЛЫ ПРОПЛЫТЬ ЧЕРЕЗ ЭТО МОРЕ Г**** пе ни
 router.get('/task', function (req, res, next) {
     if (!isLogged(req)) return next(new Error("Not Logged!"));
     if (req.query['type'] === undefined || req.query['type'] === null) return next(new Error("Empty Type!"));
