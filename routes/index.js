@@ -9,7 +9,11 @@ function isLogged(req) {
     return false;
 }
 
-router.get('/', function(req, res, next) {
+function checkIsEmpty(value) {
+    return value === undefined || value === null || value === "";
+}
+
+router.get('/', function (req, res, next) {
     if (!isLogged(req)) {
         res.render('index', {
             title: 'Аутентификация',
@@ -17,11 +21,11 @@ router.get('/', function(req, res, next) {
         });
     } else {
         User.findById(req.session.userId)
-            .exec(function(error, user) {
+            .exec(function (error, user) {
                 if (error) {
                     return next(error);
                 } else {
-                    Task.getTasks(user._id, function(tasks) {
+                    Task.getTasks(user._id, function (tasks) {
                         var exp = 0;
                         for (var i = 0; i < tasks.length; i++) {
                             if (tasks[i].completed) exp += tasks[i].difficulty;
@@ -35,7 +39,7 @@ router.get('/', function(req, res, next) {
                             tasks: tasks,
                             username: user.username,
                             email: user.email,
-                            expirience: exp
+                            experience: exp
                         });
                     });
                 }
@@ -44,7 +48,7 @@ router.get('/', function(req, res, next) {
 });
 
 
-router.post('/', function(req, res, next) {
+router.post('/', function (req, res, next) {
 
     if (req.body.password !== req.body.passwordConf) {
         let err = new Error("Passwords don't match!");
@@ -64,7 +68,7 @@ router.post('/', function(req, res, next) {
             password: req.body.password,
         };
 
-        User.create(userData, function(error, user) {
+        User.create(userData, function (error, user) {
             if (error) {
                 return next(error);
             } else {
@@ -75,9 +79,9 @@ router.post('/', function(req, res, next) {
         });
 
     } else if (req.body.logemail && req.body.logpassword) {
-        User.authenticate(req.body.logemail, req.body.logpassword, function(error, user) {
+        User.authenticate(req.body.logemail, req.body.logpassword, function (error, user) {
             if (error || !user) {
-                let err = new Error('Wrong email or password.');
+                let err = new Error('Wrong email or password');
                 err.status = 401;
                 return next(err);
             } else {
@@ -93,25 +97,23 @@ router.post('/', function(req, res, next) {
     }
 });
 
-router.get('/logout', function(req, res, next) {
-    if (req.session) {
-        req.session.destroy(function(err) {
-            if (err) {
-                return next(err);
-            } else {
-                return res.redirect('../');
-            }
-        });
-    }
+router.get('/logout', function (req, res, next) {
+    req.session.destroy(function (err) {
+        if (err) {
+            return next(err);
+        } else {
+            return res.redirect('../')
+        }
+    });
 });
 
-router.get('/task', function(req, res, next) {
+router.get('/task', function (req, res, next) {
     if (!isLogged(req)) return next(new Error("Not logged"));
-    if (req.query['type'] === undefined || req.query['type'] === null) return next(new Error("Empty type"));
+    if (checkIsEmpty(req.query['type'])) return next(new Error("Empty type"));
     switch (req.query['type']) {
         case "complete":
-            if (req.query['taskId'] !== undefined && req.query['taskId'] !== null) {
-                if (req.query['taskOwnerId'] !== undefined && req.query['taskOwnerId'] !== null) {
+            if (!checkIsEmpty(req.query['taskId'])) {
+                if (!checkIsEmpty(req.query['taskOwnerId'])) {
                     Task.completeSubTask(req.query['taskOwnerId'], req.query['taskId']);
                 } else {
                     Task.completeTask(req.query['taskId']);
@@ -119,8 +121,8 @@ router.get('/task', function(req, res, next) {
             }
             break;
         case "delete":
-            if (req.query['taskId'] !== undefined && req.query['taskId'] !== null) {
-                if (req.query['taskOwnerId'] !== undefined && req.query['taskOwnerId'] !== null) {
+            if (!checkIsEmpty(req.query['taskId'])) {
+                if (!checkIsEmpty(req.query['taskOwnerId'])) {
                     Task.deleteSubTask(req.query['taskOwnerId'], req.query['taskId']);
                 } else {
                     Task.deleteTask(req.query['taskId']);
@@ -128,9 +130,9 @@ router.get('/task', function(req, res, next) {
             }
             break;
         case "add":
-            var title = req.query['title'] === undefined || req.query['title'] === null ? "Empty" : req.query['title'];
-            var difficulty = +(req.query['difficulty'] === undefined || req.query['difficulty'] === null ? "1" : req.query['difficulty'].toString());
-            var description = req.query['description'] === undefined || req.query['description'] === null ? "Empty" : req.query['description'];
+            let title = checkIsEmpty(req.query['title']) ? "Empty" : req.query['title'];
+            let difficulty = +(checkIsEmpty(req.query['difficulty']) ? "1" : req.query['difficulty'].toString());
+            let description = checkIsEmpty(req.query['description']) ? "Empty" : req.query['description'];
             let taskData = {
                 UserObjectId: req.session.userId,
                 title: title,
@@ -141,7 +143,7 @@ router.get('/task', function(req, res, next) {
                 difficulty: difficulty,
                 tasks: []
             };
-            if (req.query['taskOwnerId'] !== undefined && req.query['taskOwnerId'] !== null) {
+            if (!checkIsEmpty(req.query['taskOwnerId'])) {
                 Task.addSubTask(req.query['taskOwnerId'], taskData);
             } else {
                 Task.sendTask(taskData);

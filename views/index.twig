@@ -75,42 +75,22 @@
     {% endif %}
     {% if type == 1 %}
         <div class="col-sm-7 twoBox">
-            <h3 class="my-4">Тикеты</h3>
+            <h3 class="mb-4">Тикеты</h3>
             {% for task in tasks %}
-                <div class="card {% if task.completed %}text-white bg-success {% else %}bg-light {% endif %}mb-3 dib"
-                     style="width: 18rem;">
-                    <div class="card-header">
-                        {{ task.title }}
-                        <a href="/task?type=delete&taskId={{ task._id }}" type="button" class="close"
-                           aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </a>
-                    </div>
-                    <div class="card-body">
-                        <p class="card-text">{{ task.description }}</p>
-                    </div>
-                    <div class="card-footer">Дата создания: {{ task.dateCreated|date("m.d.Y") }}{% if task.completed %}
-                    <br>Дата завершения: {{ task.dateCompleted|date("m.d.Y") }}{% else %}<a type="button" href="/task?type=complete&taskId={{ task._id }}" class="mt-2 btn btn-success btn-lg btn-block">Выполнено!</a>{% endif %}</div>
-                </div>
+                {% if task.completed == false %}
+                    {% include 'card.twig' %}
+                {% endif %}
             {% endfor %}
-            <div class="card bg-light mb-3 dib" style="width: 18rem;">
-                <form method="GET" action="/task">
-                    <div class="card-header">
-                        <input name="type" value="add" style="display:none;">
-                        <input type="text" class="form-control" name="title" placeholder="Название задачи">
-                    </div>
-                    <div class="card-body">
-                        <p class="card-text"><input type="text" class="form-control" name="description"
-                                                    placeholder="Описание задачи"></p>
-                    </div>
-                    <div class="card-footer">
-                        <button type="submit" class="btn btn-dark btn-lg btn-block">Добавить</button>
-                    </div>
-                </form>
-            </div>
+            {% include 'cardForm.twig' %}
+            <hr>
+            {% for task in tasks %}
+                {% if task.completed == true %}
+                    {% include 'card.twig' %}
+                {% endif %}
+            {% endfor %}
         </div>
         <div class="col-sm-4 twoBox">
-            <h3 class="my-4">Ваши данные</h3>
+            <h3 class="mb-4">Ваши данные</h3>
             <div class="row justify-content-around">
                 <div class="alert alert-warning" role="alert" style="width:100%;">
                     <b>Имя пользоватея:</b> {{ username }}
@@ -123,45 +103,13 @@
             </div>
             <div class="row justify-content-around">
                 <div class="alert alert-warning" role="alert" style="width:100%;">
-                    <b>Опыт:</b> {{ expirience }} ед.
+                    <b>Опыт:</b> {{ experience }} ед.
                 </div>
             </div>
             <div class="row justify-content-around">
-                <a type="button" class="mt-1 btn btn-danger btn-block" href="logout" style="width:100%;">Выйти</a>
+                <a type="button" class="mt-1 btn btn-danger btn-lg btn-block" href="logout" style="width:100%;">Выйти</a>
             </div>
         </div>
-        <!--
-        <div class="row justify-content-around">
-            <div class="col-sm-5">
-                <div class="card bg-light mb-3">
-                    <div class="card-header">Имя пользоватея</div>
-                    <div class="card-body">
-                        <p class="card-text">{{ username }}</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row justify-content-around">
-            <div class="col-sm-5">
-                <div class="card bg-light mb-3">
-                    <div class="card-header">E-mail</div>
-                    <div class="card-body">
-                        <p class="card-text">{{ email }}</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row justify-content-around">
-            <div class="col-sm-5">
-                <div class="card bg-light mb-3">
-                    <div class="card-header">Опыт</div>
-                    <div class="card-body">
-                        <p class="card-text">{{ expirience }}</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        -->
     {% endif %}
 </div>
 

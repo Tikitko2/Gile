@@ -1,0 +1,23 @@
+<div class="card {% if task.completed %}text-white bg-primary {% else %}bg-light {% endif %}mb-3 dib"
+     style="width:16rem;">
+    <div class="card-header">
+        {{ task.title }}
+    </div>
+    <div class="card-body" >
+        <p class="card-text">{{ task.description }}</p>
+    </div>
+    <div class="card-footer">
+        <button type="button" class="btn btn-info btn-block dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Информация</button>
+        <div class="dropdown-menu p-0 text-muted">
+            <ul class="list-group">
+                <li class="list-group-item">Начало: {{ task.dateCreated|date("d.m.Y H:i") }}</li>
+                {% if task.completed %}<li class="list-group-item">Завершение: {{ task.dateCompleted|date("d.m.Y H:i") }}</li>{% endif %}
+                <li class="list-group-item">Опыт: {{ task.difficulty }}</li>
+            </ul>
+        </div>
+        {% if task.completed == false %}
+            <a type="button" href="/task?type=complete&amp;taskId={{ task._id }}" class="mt-2 btn btn-success btn-block">Выполнено</a>
+            <a type="button" href="/task?type=delete&amp;taskId={{ task._id }}" class="mt-2 btn btn-danger btn-block">Удалить</a>
+        {% endif %}
+    </div>
+</div>
