@@ -131,7 +131,8 @@ router.get('/task', function (req, res, next) {
             break;
         case "add":
             let title = checkIsEmpty(req.query['title']) ? "Empty" : req.query['title'];
-            let difficulty = +(checkIsEmpty(req.query['difficulty']) ? "1" : req.query['difficulty'].toString());
+            let diffInt = parseInt(checkIsEmpty(req.query['difficulty']) ? 1 : req.query['difficulty'], 10);
+            let difficulty = isNaN(diffInt) ? 1 : diffInt;
             let description = checkIsEmpty(req.query['description']) ? "Empty" : req.query['description'];
             let taskData = {
                 UserObjectId: req.session.userId,
